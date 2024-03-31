@@ -5,6 +5,7 @@ import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.CsvSource;
 
+import java.io.FileNotFoundException;
 import java.time.Duration;
 import java.util.Arrays;
 import java.util.List;
@@ -44,10 +45,21 @@ class MainTest {
         String[] columnMapping = {"id", "firstName", "lastName", "country", "age"};
         String fileName = "data.csv"; // Provide a test CSV file
         List<Employee> employees = Main.parseCSV(columnMapping, fileName);
-        int i = 1;
         assertThat(employees, notNullValue());
         assertThat(employees, hasSize(2));
     }
+
+    @Test
+    void testParseCSV_ExpectRuntimeException() {
+        String[] columnMapping = {"id", "firstName", "lastName", "country", "age"};
+        String fileName = "pseudo_data.csv";
+        try {
+            Main.parseCSV(columnMapping, fileName);
+        } catch (RuntimeException e) {
+            assertEquals(FileNotFoundException.class, e.getCause().getClass());
+        }
+    }
+
 
     @ParameterizedTest
     @CsvSource({
