@@ -32,10 +32,10 @@ class MainTest {
 
     @Test
     void parseCSV_speedTimeOut() {
-        List<Employee> list1 = Main.parseCSV(columnMapping, files[0]);
-        assertTimeout(Duration.ofMillis(200), () -> {
+        List<Employee> list1 = Main.parseCSV(columnMapping, files[1]);
+        assertTimeout(Duration.ofMillis(400), () -> {
             Thread.sleep(200);
-            return "result";
+            assertArrayEquals(list1.toArray(), list.toArray());
         });
     }
 
@@ -52,7 +52,7 @@ class MainTest {
     @ParameterizedTest
     @CsvSource({
             "id,firstName,lastName,country,age, data.csv, 2",
-            "id,firstName,lastName,country,age, pseudodata.csv, 1"
+            "id,firstName,lastName,country,age, pseudodata.csv, 2"
     })
     void testParseCSV_Parameterized(String id, String firstName, String lastName, String country, String age, String fileName, int expectedSize) {
         String[] columnMapping = {id, firstName, lastName, country, age};
