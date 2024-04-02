@@ -33,7 +33,7 @@ class MainTest {
 
     @Test
     void parseCSV_speedTimeOut() {
-        List<Employee> list1 = Main.parseCSV(columnMapping, files[1]);
+        List<Employee> list1 = Main.parseCSV(columnMapping, files[0]);
         assertTimeout(Duration.ofMillis(400), () -> {
             Thread.sleep(200);
             assertArrayEquals(list1.toArray(), list.toArray());
@@ -43,7 +43,7 @@ class MainTest {
     @Test
     void testParseCSV_ExpectNonEmptyList() {
         String[] columnMapping = {"id", "firstName", "lastName", "country", "age"};
-        String fileName = "data.csv"; // Provide a test CSV file
+        String fileName = files[1]; // Provide a test CSV file
         List<Employee> employees = Main.parseCSV(columnMapping, fileName);
         assertThat(employees, notNullValue());
         assertThat(employees, hasSize(2));
